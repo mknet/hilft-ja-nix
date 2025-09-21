@@ -33,12 +33,12 @@ jobs:
     #     name: nix-community
     #     authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         
-    - name: Build ISO Image (Working)
+    - name: Build ISO Image
       run: |
-        echo "=== Building Working NixOS ISO (Test) ==="
+        echo "=== Building NixOS Minimal ISO ==="
         nix-build '<nixpkgs/nixos>' \
           -A config.system.build.isoImage \
-          -I nixos-config=./iso-image-working.nix \
+          -I nixos-config=./iso-image.nix \
           --out-link result-iso \
           --max-jobs auto \
           --cores 0
