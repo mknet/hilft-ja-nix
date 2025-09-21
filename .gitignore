@@ -1,0 +1,29 @@
+# Nix Build Ergebnisse
+result*
+*.iso
+*.qcow2
+*.raw
+
+# Nix Store
+/nix/store/
+
+# Logs
+*.log
+
+# Temporäre Dateien
+*.tmp
+*.temp
+
+# IDE Dateien
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Dateien
+.DS_Store
+Thumbs.db
+
+# Backup Dateien
+*.bak
+*.backup
