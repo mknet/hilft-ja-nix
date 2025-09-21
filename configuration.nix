@@ -121,10 +121,29 @@ in
       };
       
       "akkoma.${env.current.domain}" = {
-        root = "/var/www/akkoma";
         locations."/" = {
           proxyPass = "http://127.0.0.1:4000";
           proxyWebsockets = true;
+        };
+      };
+    };
+  };
+
+  # Akkoma (Fediverse Server)
+  services.akkoma = {
+    enable = true;
+    initSecrets = [ "secret" ];
+    config = {
+      ":pleroma" = {
+        ":instance" = {
+          name = "Akkoma Server";
+          email = env.current.email;
+          description = "Akkoma instance running on NixOS";
+        };
+        ":database" = {
+          hostname = "localhost";
+          database = env.current.database.name;
+          username = env.current.database.user;
         };
       };
     };
