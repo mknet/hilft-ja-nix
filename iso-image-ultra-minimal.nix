@@ -1,22 +1,22 @@
 { config, pkgs, ... }:
 
-# Minimale ISO für ersten Test
+# Ultra-minimale ISO - nur NixOS Basis
 {
   imports = [
-    ./configuration-minimal.nix
+    ./configuration-ultra-minimal.nix
     <nixpkgs/nixos/modules/installer/cd-dvd/iso-image.nix>
   ];
 
   # ISO Image Einstellungen
   isoImage = {
-    isoName = "akkoma-server-minimal-${config.system.nixos.version}-${pkgs.stdenv.hostPlatform.system}.iso";
-    volumeID = "AKKOMA_MINIMAL";
+    isoName = "akkoma-server-ultra-minimal-${config.system.nixos.version}-${pkgs.stdenv.hostPlatform.system}.iso";
+    volumeID = "AKKOMA_ULTRA";
     makeEfiBootable = true;
     makeUsbBootable = true;
     includeSystemBuildDependencies = true;
   };
 
-  # Konfigurationsdateien auf ISO
+  # Basis-Pakete
   environment.systemPackages = with pkgs; [
     vim
     git
@@ -27,12 +27,7 @@
     (pkgs.writeTextFile {
       name = "akkoma-configs";
       destination = "/etc/nixos-configs/configuration.nix";
-      text = builtins.readFile ./configuration-minimal.nix;
-    })
-    (pkgs.writeTextFile {
-      name = "akkoma-environment";
-      destination = "/etc/nixos-configs/environment.nix";
-      text = builtins.readFile ./environment-minimal.nix;
+      text = builtins.readFile ./configuration-ultra-minimal.nix;
     })
   ];
 

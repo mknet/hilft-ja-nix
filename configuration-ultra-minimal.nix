@@ -1,13 +1,9 @@
 { config, pkgs, lib, ... }:
 
-# Minimale Konfiguration für ersten Test
-let
-  env = import ./environment-minimal.nix;
-in
-
+# Ultra-minimale Konfiguration - nur NixOS Basis
 {
   imports = [
-    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
+    # Hardware-Konfiguration wird automatisch generiert
   ];
 
   # Boot-Konfiguration
@@ -28,9 +24,7 @@ in
 
   # Netzwerk
   networking = {
-    hostName = env.current.hostname;
-    domain = env.current.domain;
-    fqdn = "${env.current.hostname}.${env.current.domain}";
+    hostName = "akkoma-server";
     useDHCP = lib.mkDefault true;
     
     firewall = {
@@ -54,30 +48,6 @@ in
     settings = {
       PermitRootLogin = "yes";
       PasswordAuthentication = false;
-    };
-  };
-
-  # PostgreSQL (minimal)
-  services.postgresql = {
-    enable = true;
-    package = pkgs.postgresql_15;
-    ensureDatabases = [ "akkoma" ];
-    ensureUsers = [
-      {
-        name = "akkoma";
-        ensureDBOwnership = true;
-      }
-    ];
-  };
-
-  # Nginx (minimal)
-  services.nginx = {
-    enable = true;
-    virtualHosts."localhost" = {
-      root = "/var/www/html";
-      locations."/" = {
-        index = "index.html";
-      };
     };
   };
 
