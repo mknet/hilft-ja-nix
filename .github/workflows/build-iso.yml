@@ -68,9 +68,10 @@ jobs:
         path: result-iso-x86/iso/*.iso
         retention-days: 30
 
-  build-iso-arm:
+  build-iso-universal:
     runs-on: ubuntu-latest
-    name: Build ISO (ARM64)
+    name: Build Universal ISO (x86_64)
+    needs: build-iso-x86
     
     steps:
     - name: Checkout Repository
@@ -87,24 +88,24 @@ jobs:
           gc-keep-outputs = true
           gc-keep-derivations = true
           
-    - name: Build ISO Image (ARM64)
+    - name: Build Universal ISO (x86_64)
       run: |
-        echo "=== Building NixOS ISO (ARM64) with Akkoma Config Files ==="
+        echo "=== Building Universal NixOS ISO (x86_64) for all platforms ==="
         nix-build '<nixpkgs/nixos>' \
           -A config.system.build.isoImage \
-          -I nixos-config=./iso-image-arm.nix \
-          --out-link result-iso-arm \
+          -I nixos-config=./iso-image.nix \
+          --out-link result-iso-universal \
           --max-jobs auto \
           --cores 0
-          
-        echo "=== ARM64 ISO Build completed ==="
-        ls -la result-iso-arm/iso/
+            
+        echo "=== Universal ISO Build completed ==="
+        ls -la result-iso-universal/iso/
         
-    - name: Upload ARM64 ISO Artifact
+    - name: Upload Universal ISO Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: nixos-akkoma-iso-arm64
-        path: result-iso-arm/iso/*.iso
+        name: nixos-akkoma-iso-universal
+        path: result-iso-universal/iso/*.iso
         retention-days: 30
         
     # QCOW2 Upload (entfernt - fokussiert auf ISO zuerst)
@@ -121,7 +122,7 @@ jobs:
       with:
         files: |
           result-iso-x86/iso/*.iso
-          result-iso-arm/iso/*.iso
+          result-iso-universal/iso/*.iso
         generate_release_notes: true
         draft: false
         prerelease: false

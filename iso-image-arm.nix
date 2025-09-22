@@ -13,6 +13,12 @@
 
   # ARM-spezifische Einstellungen
   nixpkgs.hostPlatform = "aarch64-linux";
+  
+  # ARM64 ISO Konfiguration
+  isoImage = {
+    isoName = "nixos-akkoma-arm64-${config.system.nixos.version}-aarch64-linux.iso";
+    volumeID = "NIXOS_AKKOMA_ARM64";
+  };
 
   # Konfigurationsdateien auf ISO inkludieren
   environment.systemPackages = with pkgs; [

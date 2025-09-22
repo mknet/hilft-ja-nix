@@ -36,27 +36,27 @@ Der Build läuft automatisch in GitHub Actions mit:
 
 Nach erfolgreichem Build finden Sie:
 - `nixos-akkoma-iso-x86_64` - Bootbares Installations-Image (Intel/AMD)
-- `nixos-akkoma-iso-arm64` - Bootbares Installations-Image (ARM64/Apple Silicon)
+- `nixos-akkoma-iso-universal` - Universelles Installations-Image (funktioniert auf allen Plattformen)
 - Beide ISOs enthalten die gleichen Konfigurationsdateien
 
 ## 🎯 Installation
 
 ### Parallels Desktop (macOS)
 
-**Für Intel Mac:**
+**Für alle Macs (Intel + Apple Silicon):**
+```bash
+# Universelles ISO in Parallels importieren
+prlctl create "NixOS-Akkoma" --ostype linux
+prlctl set "NixOS-Akkoma" --device-add cd --image nixos-akkoma-iso-universal-*.iso
+prlctl start "NixOS-Akkoma"
+```
+
+**Alternative - Intel/AMD spezifisch:**
 ```bash
 # x86_64 ISO in Parallels importieren
 prlctl create "NixOS-Akkoma-x86" --ostype linux
 prlctl set "NixOS-Akkoma-x86" --device-add cd --image nixos-akkoma-iso-x86_64-*.iso
 prlctl start "NixOS-Akkoma-x86"
-```
-
-**Für ARM Mac (Apple Silicon):**
-```bash
-# ARM64 ISO in Parallels importieren
-prlctl create "NixOS-Akkoma-ARM" --ostype linux
-prlctl set "NixOS-Akkoma-ARM" --device-add cd --image nixos-akkoma-iso-arm64-*.iso
-prlctl start "NixOS-Akkoma-ARM"
 ```
 
 ### Cloud Deployment
