@@ -35,24 +35,34 @@ Der Build läuft automatisch in GitHub Actions mit:
 ## 📋 Build-Ergebnisse
 
 Nach erfolgreichem Build finden Sie:
-- `akkoma-server-*.iso` - Bootbares Installations-Image
-- `akkoma-server-*.qcow2` - Cloud-Image (Hetzner, etc.)
-- `akkoma-server-*.raw` - Parallels Desktop Image
+- `nixos-akkoma-iso-x86_64` - Bootbares Installations-Image (Intel/AMD)
+- `nixos-akkoma-iso-arm64` - Bootbares Installations-Image (ARM64/Apple Silicon)
+- Beide ISOs enthalten die gleichen Konfigurationsdateien
 
 ## 🎯 Installation
 
 ### Parallels Desktop (macOS)
+
+**Für Intel Mac:**
 ```bash
-# ISO in Parallels importieren
-prlctl create "NixOS-Akkoma" --ostype linux
-prlctl set "NixOS-Akkoma" --device-add cd --image akkoma-server-*.iso
-prlctl start "NixOS-Akkoma"
+# x86_64 ISO in Parallels importieren
+prlctl create "NixOS-Akkoma-x86" --ostype linux
+prlctl set "NixOS-Akkoma-x86" --device-add cd --image nixos-akkoma-iso-x86_64-*.iso
+prlctl start "NixOS-Akkoma-x86"
 ```
 
-### Hetzner Cloud
+**Für ARM Mac (Apple Silicon):**
 ```bash
-# QCOW2 Image hochladen
-hcloud image create --type snapshot --name "akkoma-server" akkoma-server-*.qcow2
+# ARM64 ISO in Parallels importieren
+prlctl create "NixOS-Akkoma-ARM" --ostype linux
+prlctl set "NixOS-Akkoma-ARM" --device-add cd --image nixos-akkoma-iso-arm64-*.iso
+prlctl start "NixOS-Akkoma-ARM"
+```
+
+### Cloud Deployment
+```bash
+# ISO in Cloud Provider hochladen (Hetzner, DigitalOcean, etc.)
+# Wählen Sie die richtige Architektur für Ihren Server
 ```
 
 ## ⚙️ Konfiguration

@@ -8,8 +8,9 @@ on:
   workflow_dispatch:  # Manueller Start möglich
 
 jobs:
-  build-iso:
+  build-iso-x86:
     runs-on: ubuntu-latest
+    name: Build ISO (x86_64)
     
     steps:
     - name: Checkout Repository
@@ -33,18 +34,18 @@ jobs:
     #     name: nix-community
     #     authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         
-    - name: Build ISO Image (Config Only)
+    - name: Build ISO Image (x86_64)
       run: |
-        echo "=== Building NixOS ISO with Akkoma Config Files ==="
+        echo "=== Building NixOS ISO (x86_64) with Akkoma Config Files ==="
         nix-build '<nixpkgs/nixos>' \
           -A config.system.build.isoImage \
           -I nixos-config=./iso-image.nix \
-          --out-link result-iso \
+          --out-link result-iso-x86 \
           --max-jobs auto \
           --cores 0
           
-        echo "=== ISO Build completed ==="
-        ls -la result-iso/iso/
+        echo "=== x86_64 ISO Build completed ==="
+        ls -la result-iso-x86/iso/
         
     # QCOW2 Build (entfernt - fokussiert auf ISO zuerst)
     # - name: Build QCOW2 Image
@@ -60,11 +61,50 @@ jobs:
     #     echo "=== QCOW2 Build completed ==="
     #     ls -la result-qcow2/
         
-    - name: Upload ISO Artifact
+    - name: Upload x86_64 ISO Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: nixos-akkoma-iso
-        path: result-iso/iso/*.iso
+        name: nixos-akkoma-iso-x86_64
+        path: result-iso-x86/iso/*.iso
+        retention-days: 30
+
+  build-iso-arm:
+    runs-on: ubuntu-latest
+    name: Build ISO (ARM64)
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Nix
+      uses: cachix/install-nix-action@v23
+      with:
+        nix_path: nixpkgs=channel:nixos-23.11
+        extra_nix_config: |
+          experimental-features = nix-command flakes
+          max-jobs = auto
+          cores = 0
+          gc-keep-outputs = true
+          gc-keep-derivations = true
+          
+    - name: Build ISO Image (ARM64)
+      run: |
+        echo "=== Building NixOS ISO (ARM64) with Akkoma Config Files ==="
+        nix-build '<nixpkgs/nixos>' \
+          -A config.system.build.isoImage \
+          -I nixos-config=./iso-image-arm.nix \
+          --out-link result-iso-arm \
+          --max-jobs auto \
+          --cores 0
+          
+        echo "=== ARM64 ISO Build completed ==="
+        ls -la result-iso-arm/iso/
+        
+    - name: Upload ARM64 ISO Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: nixos-akkoma-iso-arm64
+        path: result-iso-arm/iso/*.iso
         retention-days: 30
         
     # QCOW2 Upload (entfernt - fokussiert auf ISO zuerst)
@@ -80,7 +120,8 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          result-iso/iso/*.iso
+          result-iso-x86/iso/*.iso
+          result-iso-arm/iso/*.iso
         generate_release_notes: true
         draft: false
         prerelease: false
