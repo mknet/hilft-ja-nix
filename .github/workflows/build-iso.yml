@@ -33,9 +33,9 @@ jobs:
     #     name: nix-community
     #     authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         
-    - name: Build ISO Image (Full)
+    - name: Build ISO Image (Config Only)
       run: |
-        echo "=== Building NixOS ISO with Akkoma + Jitsi + PostgreSQL ==="
+        echo "=== Building NixOS ISO with Akkoma Config Files ==="
         nix-build '<nixpkgs/nixos>' \
           -A config.system.build.isoImage \
           -I nixos-config=./iso-image.nix \
