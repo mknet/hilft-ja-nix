@@ -22,15 +22,10 @@ echo "🐧 Installiere NixOS..."
 nix-env -iA nixpkgs.nixos-install-tools
 
 # Konfigurationsdateien erstellen
-echo "📝 Erstelle Konfigurationsdateien..."
+echo "📝 Erstelle environment.nix..."
 mkdir -p /etc/nixos
 
-# configuration.nix
-cat > /etc/nixos/configuration.nix << 'EOF'
-${configuration_nix}
-EOF
-
-# environment.nix
+# environment.nix — Flake/hosts müssen separat deployed werden (nixos-anywhere)
 cat > /etc/nixos/environment.nix << 'EOF'
 ${environment_nix}
 EOF

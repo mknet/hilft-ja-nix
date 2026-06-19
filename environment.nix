@@ -1,34 +1,53 @@
-# Umgebungsvariablen für den Akkoma Server
+# Umgebungsvariablen für den Helferlein NixOS-Server
 # Passen Sie diese Werte an Ihre Domain an
 
 {
   current = {
-    # Ihre Domain (z.B. "example.com")
     domain = "example.com";
-    
-    # Admin E-Mail für Let's Encrypt Zertifikate
     email = "admin@example.com";
-    
-    # Server Hostname
-    hostname = "akkoma-server";
-    
-    # PostgreSQL Datenbank-Konfiguration
+    hostname = "helferlein-server";
+
     database = {
       name = "akkoma";
       user = "akkoma";
-      password = "secure_password_here";  # Ändern Sie dies!
+      password = "secure_password_here";
     };
-    
-    # Akkoma Konfiguration
+
     akkoma = {
-      # Secret für Akkoma (generieren Sie ein sicheres!)
       secret = "change_this_secret_key";
-      
-      # Admin Benutzername
       admin_user = "admin";
-      
-      # Admin E-Mail
       admin_email = "admin@example.com";
+    };
+
+    jitsi = {
+      hostname = "meet";
+    };
+
+    # helferlein/docker/keycloak
+    keycloak = {
+      domain = "idm.example.com";
+      adminPassword = "change_me";
+      databasePassword = "keycloak";
+    };
+
+    # helferlein/docker/uptime-kuma
+    uptimeKuma = {
+      domain = "uptime.example.com";
+    };
+
+    # helferlein/docker/pleroma
+    pleroma = {
+      hostname = "social";
+      instanceName = "My Fediverse Instance";
+      adminEmail = "admin@example.com";
+      notifyEmail = "admin@example.com";
+      databaseName = "pleroma";
+      databaseUser = "pleroma";
+    };
+
+    # helferlein/docker/redpanda
+    redpanda = {
+      enableConsole = true;
     };
   };
 }

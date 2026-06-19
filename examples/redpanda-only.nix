@@ -1,4 +1,4 @@
-# Beispiel: Nur Akkoma
+# Beispiel: Redpanda (wie helferlein/docker/redpanda)
 { config, pkgs, lib, ... }:
 
 let
@@ -8,19 +8,15 @@ in
   imports = [ ../modules ];
 
   networking = {
-    hostName = "akkoma-server";
+    hostName = "redpanda-server";
     domain = env.current.domain;
     useDHCP = true;
     firewall.enable = true;
   };
 
   services.openssh.enable = true;
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = env.current.email;
-  };
 
-  helferlein.apps.akkoma.enable = true;
+  helferlein.apps.redpanda.enable = true;
 
   system.stateVersion = "26.05";
 }

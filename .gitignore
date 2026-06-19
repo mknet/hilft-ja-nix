@@ -27,3 +27,6 @@ Thumbs.db
 # Backup Dateien
 *.bak
 *.backup
+
+# Machine-specific (generate on each host with: just hw-config)
+hardware-configuration.nix

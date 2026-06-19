@@ -29,9 +29,9 @@ resource "hcloud_server" "akkoma" {
   ssh_keys    = [hcloud_ssh_key.default.id]
   
   # User Data für NixOS Installation
+  # TODO: auf nixos-anywhere --flake .#helferlein umstellen
   user_data = templatefile("${path.module}/user-data.sh", {
-    configuration_nix = file("${path.module}/../configuration.nix")
-    environment_nix   = file("${path.module}/../environment.nix")
+    environment_nix = file("${path.module}/../environment.nix")
   })
 
   # Firewall Regeln

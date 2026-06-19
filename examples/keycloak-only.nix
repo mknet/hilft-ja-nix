@@ -1,4 +1,4 @@
-# Beispiel: Nur Akkoma
+# Beispiel: Keycloak (wie helferlein/docker/keycloak)
 { config, pkgs, lib, ... }:
 
 let
@@ -8,7 +8,7 @@ in
   imports = [ ../modules ];
 
   networking = {
-    hostName = "akkoma-server";
+    hostName = "keycloak-server";
     domain = env.current.domain;
     useDHCP = true;
     firewall.enable = true;
@@ -20,7 +20,7 @@ in
     defaults.email = env.current.email;
   };
 
-  helferlein.apps.akkoma.enable = true;
+  helferlein.apps.keycloak.enable = true;
 
   system.stateVersion = "26.05";
 }
