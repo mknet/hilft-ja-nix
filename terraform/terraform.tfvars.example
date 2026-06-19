@@ -1,0 +1,14 @@
+# Terraform Variablen für Hetzner Cloud
+# Kopieren Sie diese Datei zu terraform.tfvars und passen Sie die Werte an
+
+# Hetzner Cloud API Token (erstellen Sie einen in der Hetzner Cloud Console)
+hcloud_token = "your-hetzner-cloud-api-token-here"
+
+# Server-Konfiguration
+server_name = "nixos-akkoma-server"
+server_type = "cx21"  # 2 vCPU, 4 GB RAM (€8.50/monat)
+location    = "fsn1"  # Falkenstein
+
+# Domain-Konfiguration
+domain = "your-domain.com"
+email  = "admin@your-domain.com"
