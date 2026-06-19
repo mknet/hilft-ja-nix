@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, modulesPath, ... }:
 
 # Importiere Umgebungsvariablen
 let
@@ -8,7 +8,7 @@ in
 {
   imports = [
     # Hardware-Konfiguration (wird automatisch generiert)
-    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
+    (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
   # Boot-Konfiguration

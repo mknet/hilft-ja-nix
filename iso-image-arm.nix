@@ -1,23 +1,20 @@
 # NixOS Akkoma Server ISO für ARM Mac (Apple Silicon)
 # Diese Konfiguration erstellt ein funktionierendes NixOS ISO für ARM64
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, modulesPath, ... }:
 
 {
   imports = [
-    <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix>
+    "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
   ];
 
   # System Version
   system.stateVersion = "23.11";
 
-  # ARM-spezifische Einstellungen
-  nixpkgs.hostPlatform = "aarch64-linux";
-  
   # ARM64 ISO Konfiguration
   isoImage = {
-    isoName = "nixos-akkoma-arm64-${config.system.nixos.version}-aarch64-linux.iso";
-    volumeID = "NIXOS_AKKOMA_ARM64";
+    isoName = lib.mkForce "nixos-akkoma-arm64-${config.system.nixos.version}-aarch64-linux.iso";
+    volumeID = lib.mkForce "NIXOS_AKKOMA_ARM64";
   };
 
   # Konfigurationsdateien auf ISO inkludieren

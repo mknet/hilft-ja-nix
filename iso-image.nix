@@ -1,12 +1,12 @@
 # NixOS Minimal Installation ISO
 # Diese Konfiguration erstellt ein funktionierendes NixOS ISO
 
-{ config, pkgs, ... }:
+{ config, pkgs, modulesPath, ... }:
 
 # NixOS Akkoma Server ISO mit allen Services
 {
   imports = [
-    <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix>
+    "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
   ];
 
   # System Version
