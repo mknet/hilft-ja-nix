@@ -41,7 +41,25 @@ Nach erfolgreichem Build finden Sie:
 
 ## 🎯 Installation
 
-### Parallels Desktop (macOS)
+### 🖥️ Vagrant (Entwicklung)
+
+**Für lokale Entwicklung:**
+```bash
+# 1. Vagrant VM erstellen und starten
+./vagrant-setup.sh
+
+# 2. NixOS in VM installieren
+./vagrant-nixos-deploy.sh
+
+# 3. SSH in NixOS VM
+vagrant ssh
+```
+
+**Vagrant Box:** `bento/ubuntu-22.04` (am beliebtesten)  
+**VM Ressourcen:** 4GB RAM, 2 CPUs  
+**Netzwerk:** 192.168.56.10  
+
+### 🖥️ Parallels Desktop (macOS)
 
 **Für alle Macs (Intel + Apple Silicon):**
 ```bash
@@ -51,19 +69,44 @@ prlctl set "NixOS-Akkoma" --device-add cd --image nixos-akkoma-iso-universal-*.i
 prlctl start "NixOS-Akkoma"
 ```
 
-**Alternative - Intel/AMD spezifisch:**
+### ☁️ Cloud Deployment
+
+#### **Option 1: Terraform + Hetzner Cloud (Empfohlen)**
 ```bash
-# x86_64 ISO in Parallels importieren
-prlctl create "NixOS-Akkoma-x86" --ostype linux
-prlctl set "NixOS-Akkoma-x86" --device-add cd --image nixos-akkoma-iso-x86_64-*.iso
-prlctl start "NixOS-Akkoma-x86"
+# 1. Terraform konfigurieren
+cd terraform/
+cp terraform.tfvars.example terraform.tfvars
+# Bearbeiten Sie terraform.tfvars mit Ihren Daten
+
+# 2. Server erstellen und NixOS installieren
+terraform init
+terraform plan
+terraform apply
+
+# 3. SSH-Zugriff
+ssh root@<server-ip>
 ```
 
-### Cloud Deployment
+#### **Option 2: nixos-anywhere (Direktes Deployment)**
 ```bash
-# ISO in Cloud Provider hochladen (Hetzner, DigitalOcean, etc.)
-# Wählen Sie die richtige Architektur für Ihren Server
+# NixOS direkt auf Hetzner Server deployen
+./deploy-nixos-hetzner.sh <server-ip>
 ```
+
+#### **Option 3: Andere Cloud-Anbieter**
+```bash
+# DigitalOcean
+./deploy-digitalocean.sh
+
+# Vultr
+./deploy-vultr.sh
+
+# Hetzner (Rescue-System)
+./deploy-hetzner-rescue.sh
+```
+
+### 📚 Vollständige Anleitung
+Siehe [CLOUD-DEPLOYMENT.md](CLOUD-DEPLOYMENT.md) für detaillierte Anweisungen.
 
 ## ⚙️ Konfiguration
 
